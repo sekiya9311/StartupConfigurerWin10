@@ -5,51 +5,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using StartupConfigurerWin10.Base;
 using StartupConfigurerWin10.Model;
 
 namespace StartupConfigurerWin10.ViewModel
 {
-    class MainWindowViewModel : ViewModelBase
+    class MainWindowViewModel : BindingBase
     {
-        public ObservableCollection<Shortcut> StartupShortcuts { get; set; }
+        public IMainWindowModel Model { get; }
 
-        private CommandBase _addCommand = null;
-        public CommandBase AddCommand =>
-            (_addCommand ?? (_addCommand = new CommandBase(Add)));
+        public CommandBase AddCommand { get; }
 
-        private CommandBase _removeCommand = null;
-        public CommandBase RemoveCommand =>
-            (_removeCommand ?? (_removeCommand = new CommandBase(Remove)));
+        public CommandBase RemoveCommand { get; }
 
-        private CommandBase _saveCommand = null;
-        public CommandBase SaveCommand =>
-            (_saveCommand ?? (_saveCommand = new CommandBase(Save)));
+        public CommandBase SaveCommand { get; }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(IMainWindowModel model)
         {
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            // TODO: get current startup shortcuts
-            this.StartupShortcuts = new ObservableCollection<Shortcut>();
-        }
-
-        private void Add()
-        {
-            // TODO: impl
-        }
-
-        private void Remove()
-        {
-            // TODO: impl
-            // remove selected items
-        }
-
-        private void Save()
-        {
-            // TODO: save startup
+            this.Model = model;
+            this.AddCommand = new CommandBase(this.Model.AddStartup);
+            this.RemoveCommand = new CommandBase(this.Model.Remove);
+            this.SaveCommand = new CommandBase(this.Model.Save);
         }
     }
 }

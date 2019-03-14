@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 
-namespace StartupConfigurerWin10.ViewModel
+namespace StartupConfigurerWin10.Base
 {
-    class ViewModelBase : INotifyPropertyChanged
+    class BindingBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

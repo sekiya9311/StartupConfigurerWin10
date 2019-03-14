@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace StartupConfigurerWin10.ViewModel
+namespace StartupConfigurerWin10.Base
 {
     class CommandBase : ICommand
     {

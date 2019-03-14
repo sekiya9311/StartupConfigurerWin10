@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StartupConfigurerWin10.Model
+namespace StartupConfigurerWin10.Entity
 {
     class Shortcut
     {
