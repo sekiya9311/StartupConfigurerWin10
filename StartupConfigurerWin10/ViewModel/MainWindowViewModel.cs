@@ -9,7 +9,7 @@ using StartupConfigurerWin10.Model;
 
 namespace StartupConfigurerWin10.ViewModel
 {
-    class MainViewModel : ViewModelBase
+    class MainWindowViewModel : ViewModelBase
     {
         public ObservableCollection<Shortcut> StartupShortcuts { get; set; }
 
@@ -25,7 +25,7 @@ namespace StartupConfigurerWin10.ViewModel
         public CommandBase SaveCommand =>
             (_saveCommand ?? (_saveCommand = new CommandBase(Save)));
 
-        public MainViewModel()
+        public MainWindowViewModel()
         {
             Initialize();
         }
