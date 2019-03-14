@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using StartupConfigurerWin10.Model;
+using StartupConfigurerWin10.Entity;
 
 namespace StartupConfigurerWin10.Util
 {
