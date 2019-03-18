@@ -26,6 +26,8 @@ namespace StartupConfigurerWin10.Entity
         public WindowStyle WindowStyle { get; set; }
         /// <summary> ショートカットのコメントを取得、設定します。 </summary>
         public string Description { get; set; }
+        /// <summary> ショートカットファイルのフルパスを取得、設定します。 </summary>
+        public string FullName { get; set; }
     }
 
     /// <summary>
