@@ -15,13 +15,13 @@ namespace StartupConfigurerWin10.Util
             "Programs",
             "Startup");
 
-        public static IEnumerable<Shortcut> GetCurrentStartup()
+        public static IEnumerable<IShortcut> GetCurrentStartup()
         {
             // TODO: impl
             throw new NotImplementedException();
         }
 
-        public static void SaveStartup(IEnumerable<Shortcut> shortcuts)
+        public static void SaveStartup(IEnumerable<IShortcut> shortcuts)
         {
             // TODO: impl
             // delete & insert ???

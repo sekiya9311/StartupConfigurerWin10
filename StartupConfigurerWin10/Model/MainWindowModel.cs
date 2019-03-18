@@ -10,7 +10,7 @@ namespace StartupConfigurerWin10.Model
 {
     class MainWindowModel : IMainWindowModel
     {
-        public ObservableCollection<Shortcut> StartupShortcuts => throw new NotImplementedException();
+        public ObservableCollection<IShortcut> StartupShortcuts => throw new NotImplementedException();
 
         public void AddStartup()
         {

@@ -11,7 +11,7 @@ namespace StartupConfigurerWin10.Model
 {
     interface IMainWindowModel
     {
-        ObservableCollection<Shortcut> StartupShortcuts { get; }
+        ObservableCollection<IShortcut> StartupShortcuts { get; }
         void AddStartup();
         void Remove();
         void Save();

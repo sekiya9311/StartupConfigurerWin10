@@ -12,7 +12,7 @@ namespace StartupConfigurerWin10.Entity
     /// <remarks>
     /// HACK: とりあえず使いそうなやつのみ
     /// </remarks>
-    class Shortcut
+    class Shortcut : IShortcut
     {
         /// <summary> ショートカットのアイコンのパスを取得、設定します。 </summary>
         public string IconLocation { get; set; }
