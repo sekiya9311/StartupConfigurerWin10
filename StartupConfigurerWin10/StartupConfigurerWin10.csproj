@@ -65,6 +65,7 @@
     </Compile>
     <Compile Include="Entity\IShortcut.cs" />
     <Compile Include="Entity\Shortcut.cs" />
+    <Compile Include="Entity\ShortcutAdapter.cs" />
     <Compile Include="Model\Interface\IMainWindowModel.cs" />
     <Compile Include="Model\MainWindowModel.cs" />
     <Compile Include="Util\ShortcutUtil.cs" />
