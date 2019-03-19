@@ -10,7 +10,7 @@ using StartupConfigurerWin10.Model;
 
 namespace StartupConfigurerWin10.ViewModel
 {
-    class MainWindowViewModel : BindingBase
+    public class MainWindowViewModel : BindingBase
     {
         public IMainWindowModel Model { get; }
 
@@ -27,5 +27,7 @@ namespace StartupConfigurerWin10.ViewModel
             this.RemoveCommand = new CommandBase(this.Model.Remove);
             this.SaveCommand = new CommandBase(this.Model.Save);
         }
+
+        public MainWindowViewModel() : this(new MainWindowModel()) { }
     }
 }

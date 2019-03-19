@@ -33,7 +33,7 @@ namespace StartupConfigurerWin10.Entity
     /// <summary>
     /// ウィンドウのスタイルを表します。
     /// </summary>
-    enum WindowStyle
+    public enum WindowStyle
     {
         /// <summary> 通常状態を表します。 </summary>
         Normal = 1,

@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace StartupConfigurerWin10.Base
 {
-    class BindingBase : INotifyPropertyChanged
+    public class BindingBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

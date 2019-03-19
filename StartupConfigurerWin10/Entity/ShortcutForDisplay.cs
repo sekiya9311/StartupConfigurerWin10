@@ -8,7 +8,7 @@ using StartupConfigurerWin10.Base;
 
 namespace StartupConfigurerWin10.Entity
 {
-    class ShortcutForDisplay : BindingBase, IShortcut
+    public class ShortcutForDisplay : BindingBase, IShortcut
     {
         private IShortcut _shortcut;
 

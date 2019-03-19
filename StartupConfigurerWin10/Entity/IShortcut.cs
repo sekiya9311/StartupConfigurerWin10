@@ -9,7 +9,7 @@ namespace StartupConfigurerWin10.Entity
     /// <summary>
     /// ショートカットを表します。
     /// </summary>
-    interface IShortcut
+    public interface IShortcut
     {
         /// <summary> ショートカットのアイコンのパスを取得、設定します。 </summary>
         string IconLocation { get; set; }

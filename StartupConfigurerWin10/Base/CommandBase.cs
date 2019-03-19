@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace StartupConfigurerWin10.Base
 {
-    class CommandBase : ICommand
+    public class CommandBase : ICommand
     {
         public event EventHandler CanExecuteChanged;
 

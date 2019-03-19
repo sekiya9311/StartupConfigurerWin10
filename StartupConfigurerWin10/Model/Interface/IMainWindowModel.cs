@@ -9,7 +9,7 @@ using StartupConfigurerWin10.Entity;
 
 namespace StartupConfigurerWin10.Model
 {
-    interface IMainWindowModel
+    public interface IMainWindowModel
     {
         ObservableCollection<ShortcutForDisplay> StartupShortcuts { get; }
         void AddStartup();
