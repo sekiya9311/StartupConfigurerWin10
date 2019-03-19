@@ -22,10 +22,10 @@ namespace StartupConfigurerWin10.Entity
             get => _shortcut.IconLocation;
             set
             {
-                var tmp = _shortcut.IconLocation;
-                if (CheckNeedNotifyPropertyChanged(ref tmp, value))
+                if (_shortcut.IconLocation != value)
                 {
-                    _shortcut.IconLocation = tmp;
+                    _shortcut.IconLocation = value;
+                    NotifyPropertyChanged(nameof(IconLocation));
                 }
             }
         }
@@ -34,10 +34,10 @@ namespace StartupConfigurerWin10.Entity
             get => _shortcut.TargetPath;
             set
             {
-                var tmp = _shortcut.TargetPath;
-                if (CheckNeedNotifyPropertyChanged(ref tmp, value))
+                if (_shortcut.TargetPath != value)
                 {
-                    _shortcut.TargetPath = tmp;
+                    _shortcut.TargetPath = value;
+                    NotifyPropertyChanged(nameof(TargetPath));
                 }
             }
         }
@@ -46,10 +46,10 @@ namespace StartupConfigurerWin10.Entity
             get => _shortcut.Arguments;
             set
             {
-                var tmp = _shortcut.Arguments;
-                if (CheckNeedNotifyPropertyChanged(ref tmp, value))
+                if (_shortcut.Arguments != value)
                 {
-                    _shortcut.Arguments = tmp;
+                    _shortcut.Arguments = value;
+                    NotifyPropertyChanged(nameof(Arguments));
                 }
             }
         }
@@ -58,10 +58,10 @@ namespace StartupConfigurerWin10.Entity
             get => _shortcut.WorkingDirectory;
             set
             {
-                var tmp = _shortcut.WorkingDirectory;
-                if (CheckNeedNotifyPropertyChanged(ref tmp, value))
+                if (_shortcut.WorkingDirectory != value)
                 {
-                    _shortcut.WorkingDirectory = tmp;
+                    _shortcut.WorkingDirectory = value;
+                    NotifyPropertyChanged(nameof(WorkingDirectory));
                 }
             }
         }
@@ -70,10 +70,10 @@ namespace StartupConfigurerWin10.Entity
             get => _shortcut.WindowStyle;
             set
             {
-                var tmp = _shortcut.WindowStyle;
-                if (CheckNeedNotifyPropertyChanged(ref tmp, value))
+                if (_shortcut.WindowStyle != value)
                 {
-                    _shortcut.WindowStyle = tmp;
+                    _shortcut.WindowStyle = value;
+                    NotifyPropertyChanged(nameof(WindowStyle));
                 }
             }
         }
@@ -82,10 +82,10 @@ namespace StartupConfigurerWin10.Entity
             get => _shortcut.Description;
             set
             {
-                var tmp = _shortcut.Description;
-                if (CheckNeedNotifyPropertyChanged(ref tmp, value))
+                if (_shortcut.Description != value)
                 {
-                    _shortcut.Description = tmp;
+                    _shortcut.Description = value;
+                    NotifyPropertyChanged(nameof(Description));
                 }
             }
         }
@@ -94,10 +94,10 @@ namespace StartupConfigurerWin10.Entity
             get => _shortcut.FullName;
             set
             {
-                var tmp = _shortcut.FullName;
-                if (CheckNeedNotifyPropertyChanged(ref tmp, value))
+                if (_shortcut.FullName != value)
                 {
-                    _shortcut.FullName = tmp;
+                    _shortcut.FullName = value;
+                    NotifyPropertyChanged(nameof(FullName));
                 }
             }
         }
