@@ -25,7 +25,7 @@ namespace StartupConfigurerWin10.Util
         {
             var shell = new IWshRuntimeLibrary.WshShell();
 
-            var startupFiles = System.IO.Directory.EnumerateFiles(StartupPath);
+            var startupFiles = System.IO.Directory.EnumerateFiles(StartupPath, "*.lnk");
             foreach (var filePath in startupFiles)
             {
                 if (!(shell.CreateShortcut(filePath) is IWshRuntimeLibrary.IWshShortcut wshShortcut))
