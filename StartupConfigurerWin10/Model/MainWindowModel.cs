@@ -65,8 +65,16 @@ namespace StartupConfigurerWin10.Model
 
         public void Save()
         {
-            ShortcutUtil.SaveStartup(StartupShortcuts);
-
+            try
+            {
+                ShortcutUtil.SaveStartup(StartupShortcuts);
+                System.Windows.MessageBox.Show("Success!!");
+            }
+            catch
+            {
+                System.Windows.MessageBox.Show("Unsuccess...");
+                throw;
+            }
             Initialize();
         }
 
