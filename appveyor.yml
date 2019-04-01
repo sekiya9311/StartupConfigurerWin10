@@ -6,5 +6,5 @@ init:
   - git config --global core.autocrlf input
 
 build:
-  project: StartupConfigureWin10.sln
+  project: StartupConfigurerWin10.sln
   verbosity: minimal
