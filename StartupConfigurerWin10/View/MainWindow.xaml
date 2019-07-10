@@ -10,15 +10,12 @@
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
     <DockPanel>
-        <ListBox DockPanel.Dock="Top">
+        <ListBox DockPanel.Dock="Top" ItemsSource="{Binding StartupShortcuts}" SelectedItem="{Binding SelectedShortcut.Value}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Image></Image>
-                        <StackPanel>
-                            <Label Content="ファイル名" />
-                            <TextBlock Text="ファイルパス" />
-                        </StackPanel>
+                    <StackPanel Margin="5,5,5,5">
+                        <Label Content="{Binding FileName}" />
+                        <Image Source="{Binding IconLocation}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -29,14 +26,14 @@
             </ListBox.ItemsPanel>
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
-                    <Setter Property="ToolTip" Value="" />
+                    <Setter Property="ToolTip" Value="{Binding TargetPath}" />
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
         <UniformGrid Rows="1" DockPanel.Dock="Bottom">
-            <Button Content="追加" />
-            <Button Content="削除" />
-            <Button Content="保存" />
+            <Button Content="追加" Command="{Binding AddCommand}" />
+            <Button Content="削除" Command="{Binding RemoveCommand}" />
+            <Button Content="保存" Command="{Binding SaveCommand}" />
         </UniformGrid>
     </DockPanel>
 </Window>
