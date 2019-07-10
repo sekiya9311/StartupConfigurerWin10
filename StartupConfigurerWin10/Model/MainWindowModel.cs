@@ -12,11 +12,14 @@ namespace StartupConfigurerWin10.Model
 {
     class MainWindowModel : IMainWindowModel
     {
-        public ObservableCollection<ShortcutForDisplay> StartupShortcuts { get; private set; }
-
         public MainWindowModel()
         {
-            Initialize();
+
+        }
+
+        public IEnumerable<IShortcut> GetStartupShortcuts()
+        {
+
         }
 
         public void AddStartup()
@@ -48,41 +51,22 @@ namespace StartupConfigurerWin10.Model
                     WindowStyle = WindowStyle.Normal,
                     WorkingDirectory = ""
                 };
-                StartupShortcuts.Add(new ShortcutForDisplay(shortcut));
             }
         }
 
-        public void Remove()
+        public IShortcut NewStartupShortcut()
         {
-            var selectedFiles = StartupShortcuts
-                .Where(f => f.IsSelected)
-                .ToArray(); // 遅延してるとやばそうなので
-            foreach (var file in selectedFiles)
-            {
-                StartupShortcuts.Remove(file);
-            }
+            throw new NotImplementedException();
         }
 
-        public void Save()
+        public void RemoveStartupShortcut(IShortcut shortcut)
         {
-            try
-            {
-                ShortcutUtil.SaveStartup(StartupShortcuts);
-                System.Windows.MessageBox.Show("Success!!");
-            }
-            catch
-            {
-                System.Windows.MessageBox.Show("Unsuccess...");
-                throw;
-            }
-            Initialize();
+            throw new NotImplementedException();
         }
 
-        private void Initialize()
+        public void SaveStartupShortcuts(IEnumerable<IShortcut> shortcuts)
         {
-            var currentStartupFiles = ShortcutUtil.GetCurrentStartup();
-            StartupShortcuts = new ObservableCollection<ShortcutForDisplay>(
-                currentStartupFiles.Select(f => new ShortcutForDisplay(f)));
+            throw new NotImplementedException();
         }
     }
 }
