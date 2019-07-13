@@ -54,10 +54,12 @@ namespace StartupConfigurerWin10.Model
 
             foreach (var shortcut in shortcuts)
             {
-                if (System.IO.File.Exists(shortcut.FullName))
+                var fullName = System.IO.Path.Combine(path, System.IO.Path.GetFileName(shortcut.FullName));
+                if (System.IO.File.Exists(fullName))
                 {
-                    System.IO.Directory.Delete(shortcut.FullName);
+                    System.IO.Directory.Delete(fullName);
                 }
+                shortcut.FullName = fullName;
 
                 var wshShortcut = ConvertIShortcutToIWshShortcut(shortcut);
                 try
