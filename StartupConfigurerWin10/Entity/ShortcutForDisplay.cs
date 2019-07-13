@@ -8,7 +8,7 @@ namespace StartupConfigurerWin10.Entity
 {
     public class ShortcutForDisplay : IShortcut
     {
-        private IShortcut _shortcut;
+        private readonly IShortcut _shortcut;
 
         public ShortcutForDisplay(IShortcut shortcut)
         {
