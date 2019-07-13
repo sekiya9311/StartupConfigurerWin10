@@ -6,26 +6,20 @@ using System.Threading.Tasks;
 
 using StartupConfigurerWin10.Entity;
 
-// TODO: 例外処理とか解放処理とかは後でがんばろー
-
 namespace StartupConfigurerWin10.Util
 {
     class ShortcutUtil
     {
-        public static string StartupPath => System.IO.Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.StartMenu),
-            "Programs",
-            "Startup");
-
         /// <summary>
-        /// 現在のスタートアップショートカットをシーケンスで返します。
+        /// 指定したディレクトリパスのショートカットをシーケンスで返します。
         /// </summary>
-        /// <returns>現在のスタートアップショートカットのシーケンス</returns>
-        public static IEnumerable<IShortcut> GetCurrentStartup()
+        /// <param name="path">ショートカット取得元のパス</param>
+        /// <returns>取得したショートカットオブジェクトのシーケンス</returns>
+        public static IEnumerable<IShortcut> GetShortcuts(string path)
         {
             var shell = new IWshRuntimeLibrary.WshShell();
 
-            var startupFiles = System.IO.Directory.EnumerateFiles(StartupPath, "*.lnk");
+            var startupFiles = System.IO.Directory.EnumerateFiles(path, "*.lnk");
             foreach (var filePath in startupFiles)
             {
                 if (!(shell.CreateShortcut(filePath) is IWshRuntimeLibrary.IWshShortcut wshShortcut))
@@ -33,17 +27,26 @@ namespace StartupConfigurerWin10.Util
                     continue;
                 }
                 
-                yield return ConvertIWshShortcutToIShortcut(wshShortcut);
+                try
+                {
+                    var myShortcut = ConvertIWshShortcutToIShortcut(wshShortcut);
+                    yield return myShortcut;
+                }
+                finally
+                {
+                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(wshShortcut);
+                }
             }
         }
 
         /// <summary>
-        /// 引数のショートカットをスタートアップフォルダに作成します。
+        /// 引数のショートカットを指定したディレクトリに作成します。
         /// </summary>
-        /// <param name="shortcuts">スタートアップフォルダ保存対象のショートカット</param>
-        public static void SaveStartup(IEnumerable<IShortcut> shortcuts)
+        /// <param name="path">ショートカットを保存するパス</param>
+        /// <param name="shortcuts">保存対象のショートカット</param>
+        public static void SaveStartup(string path, IEnumerable<IShortcut> shortcuts)
         {
-            var curStartupFiles = System.IO.Directory.EnumerateFiles(StartupPath);
+            var curStartupFiles = System.IO.Directory.EnumerateFiles(path);
             foreach (var filePath in curStartupFiles)
             {
                 System.IO.File.Delete(filePath);
@@ -51,9 +54,20 @@ namespace StartupConfigurerWin10.Util
 
             foreach (var shortcut in shortcuts)
             {
+                if (System.IO.File.Exists(shortcut.FullName))
+                {
+                    System.IO.Directory.Delete(shortcut.FullName);
+                }
+
                 var wshShortcut = ConvertIShortcutToIWshShortcut(shortcut);
-                wshShortcut.Save();
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(wshShortcut);
+                try
+                {
+                    wshShortcut.Save();
+                }
+                finally
+                {
+                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(wshShortcut);
+                }
             }
         }
 
@@ -62,7 +76,7 @@ namespace StartupConfigurerWin10.Util
         /// </summary>
         /// <param name="wshShortcut">コピー対象のWSH版ショートカットオブジェクト</param>
         /// <returns>自作ショートカットオブジェクト</returns>
-        public static IShortcut ConvertIWshShortcutToIShortcut(IWshRuntimeLibrary.IWshShortcut wshShortcut)
+        private static IShortcut ConvertIWshShortcutToIShortcut(IWshRuntimeLibrary.IWshShortcut wshShortcut)
         {
             var ret = new Shortcut()
             {
@@ -75,8 +89,6 @@ namespace StartupConfigurerWin10.Util
                 FullName = wshShortcut.FullName
             };
 
-            System.Runtime.InteropServices.Marshal.FinalReleaseComObject(wshShortcut);
-
             return ret;
         }
 
@@ -85,11 +97,18 @@ namespace StartupConfigurerWin10.Util
         /// </summary>
         /// <param name="shortcut">コピー対象の自作ショートカットオブジェクト</param>
         /// <returns>WSH版ショートカットオブジェクト</returns>
-        public static IWshRuntimeLibrary.IWshShortcut ConvertIShortcutToIWshShortcut(IShortcut shortcut)
+        private static IWshRuntimeLibrary.IWshShortcut ConvertIShortcutToIWshShortcut(IShortcut shortcut)
         {
             var shell = new IWshRuntimeLibrary.WshShell();
 
             var ret = shell.CreateShortcut(shortcut.FullName) as IWshRuntimeLibrary.IWshShortcut;
+            ret.IconLocation = shortcut.IconLocation;
+            ret.TargetPath = shortcut.TargetPath;
+            ret.Arguments = shortcut.Arguments;
+            ret.WorkingDirectory = shortcut.WorkingDirectory;
+            ret.WindowStyle = (int)shortcut.WindowStyle;
+            ret.Description = shortcut.Description;
+
             return ret;
         }
     }
