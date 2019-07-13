@@ -9,7 +9,6 @@ using System.Reactive.Disposables;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
-using StartupConfigurerWin10.Base;
 using StartupConfigurerWin10.Entity;
 using StartupConfigurerWin10.Model;
 

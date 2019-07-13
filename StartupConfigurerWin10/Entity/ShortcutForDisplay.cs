@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using StartupConfigurerWin10.Base;
-
 namespace StartupConfigurerWin10.Entity
 {
     public class ShortcutForDisplay : IShortcut

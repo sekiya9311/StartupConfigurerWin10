@@ -100,9 +100,7 @@
     <Compile Include="Model\Interface\IMainWindowModel.cs" />
     <Compile Include="Model\MainWindowModel.cs" />
     <Compile Include="Util\ShortcutUtil.cs" />
-    <Compile Include="Base\CommandBase.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="Base\BindingBase.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
