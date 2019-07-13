@@ -16,7 +16,7 @@ using StartupConfigurerWin10.Model;
 
 namespace StartupConfigurerWin10.ViewModel
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel : IDisposable
     {
         private CompositeDisposable _disposables;
         private IMainWindowModel _model;
@@ -85,6 +85,11 @@ namespace StartupConfigurerWin10.ViewModel
         {
             _model.SaveStartupShortcuts(StartupShortcuts);
 
+        }
+
+        public void Dispose()
+        {
+            _disposables.Dispose();
         }
 
         [Obsolete("このコンストラクタはデザイナ用です。", true)]

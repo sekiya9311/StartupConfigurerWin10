@@ -32,5 +32,11 @@ namespace StartupConfigurerWin10
 
             this.DataContext = vm;
         }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            (this.DataContext as IDisposable)?.Dispose();
+        }
     }
 }
