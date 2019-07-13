@@ -68,5 +68,8 @@ namespace StartupConfigurerWin10.Model
         {
             throw new NotImplementedException();
         }
+
+        [Obsolete("このコンストラクタはデザイナ用です。", true)]
+        public MainWindowModel() { }
     }
 }

@@ -61,6 +61,7 @@ namespace StartupConfigurerWin10.ViewModel
 
         }
 
+        [Obsolete("このコンストラクタはデザイナ用です。", true)]
         public MainWindowViewModel() : this(new MainWindowModel()) { }
     }
 }
