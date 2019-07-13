@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 using StartupConfigurerWin10.Entity;
 
-namespace StartupConfigurerWin10.Util
+namespace StartupConfigurerWin10.Model
 {
-    class ShortcutUtil
+    class ShortcutService : IShortcutService
     {
-        /// <summary>
+        // <summary>
         /// 指定したディレクトリパスのショートカットをシーケンスで返します。
         /// </summary>
         /// <param name="path">ショートカット取得元のパス</param>
         /// <returns>取得したショートカットオブジェクトのシーケンス</returns>
-        public static IEnumerable<IShortcut> GetShortcuts(string path)
+        public IEnumerable<IShortcut> GetShortcuts(string path)
         {
             var shell = new IWshRuntimeLibrary.WshShell();
 
@@ -26,7 +26,7 @@ namespace StartupConfigurerWin10.Util
                 {
                     continue;
                 }
-                
+
                 try
                 {
                     var myShortcut = ConvertIWshShortcutToIShortcut(wshShortcut);
@@ -44,7 +44,7 @@ namespace StartupConfigurerWin10.Util
         /// </summary>
         /// <param name="path">ショートカットを保存するパス</param>
         /// <param name="shortcuts">保存対象のショートカット</param>
-        public static void SaveStartup(string path, IEnumerable<IShortcut> shortcuts)
+        public void SaveStartup(string path, IEnumerable<IShortcut> shortcuts)
         {
             var curStartupFiles = System.IO.Directory.EnumerateFiles(path);
             foreach (var filePath in curStartupFiles)
