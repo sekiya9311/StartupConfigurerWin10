@@ -21,7 +21,9 @@ namespace StartupConfigurerWin10.ViewModel
 
         public ReactiveCollection<ShortcutForDisplay> StartupShortcuts { get; }
 
-        public ReactivePropertySlim<IShortcut> SelectedShortcut { get; } = new ReactivePropertySlim<IShortcut>();
+        public ReadOnlyReactiveCollection<ShortcutForDisplay> StartupShortcutsForDisp { get; }
+
+        public ReactivePropertySlim<int> SelectedShortcutIndex { get; } = new ReactivePropertySlim<int>();
 
         public ReactiveCommand AddCommand { get; } = new ReactiveCommand();
 
@@ -31,6 +33,8 @@ namespace StartupConfigurerWin10.ViewModel
 
         public MainWindowViewModel(IMainWindowModel model)
         {
+            if (model is null) return;
+
             _disposables = new CompositeDisposable();
             _model = model;
 
@@ -38,6 +42,10 @@ namespace StartupConfigurerWin10.ViewModel
                 Observable.ToObservable(
                     _model.GetStartupShortcuts().Select(s => new ShortcutForDisplay(s))))
                 .AddTo(_disposables);
+
+            StartupShortcutsForDisp = StartupShortcuts
+                .Where(s => !s.Delete)
+                .ToReadOnlyReactiveCollection(StartupShortcuts.ToCollectionChanged());
 
             AddCommand.Subscribe(AddShortcut).AddTo(_disposables);
 
@@ -48,20 +56,32 @@ namespace StartupConfigurerWin10.ViewModel
 
         private void AddShortcut()
         {
-
+            var newShortcuts = _model.NewStartupShortcut()
+                .Select(s => new ShortcutForDisplay(s))
+                .ToArray();
+            StartupShortcuts.AddRangeOnScheduler(newShortcuts);
         }
 
         private void RemoveShortcut()
         {
+            if (SelectedShortcutIndex.Value == -1)
+            {
+                return;
+            }
 
+            var deleteShortcutDisp = StartupShortcutsForDisp[SelectedShortcutIndex.Value];
+            var deleteShortcut = StartupShortcuts.Where(s => s.Equals(deleteShortcutDisp)).First();
+            deleteShortcut.Delete = true;
+            SelectedShortcutIndex.Value = -1;
         }
 
         private void SaveShortcuts()
         {
+            _model.SaveStartupShortcuts(StartupShortcuts);
 
         }
 
         [Obsolete("このコンストラクタはデザイナ用です。", true)]
-        public MainWindowViewModel() : this(new MainWindowModel()) { }
+        public MainWindowViewModel() : this(null) { }
     }
 }

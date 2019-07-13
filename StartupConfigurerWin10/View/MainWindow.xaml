@@ -10,7 +10,7 @@
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
     <DockPanel>
-        <ListBox DockPanel.Dock="Top" ItemsSource="{Binding StartupShortcuts}" SelectedItem="{Binding SelectedShortcut.Value}">
+        <ListBox DockPanel.Dock="Top" ItemsSource="{Binding StartupShortcutsForDisp}" SelectedIndex="{Binding SelectedShortcutIndex.Value}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="5,5,5,5">

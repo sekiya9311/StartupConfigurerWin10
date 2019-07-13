@@ -12,8 +12,7 @@ namespace StartupConfigurerWin10.Model
     public interface IMainWindowModel
     {
         IEnumerable<IShortcut> GetStartupShortcuts();
-        IShortcut NewStartupShortcut();
-        void RemoveStartupShortcut(IShortcut shortcut);
+        IEnumerable<IShortcut> NewStartupShortcut();
         void SaveStartupShortcuts(IEnumerable<IShortcut> shortcuts);
     }
 }

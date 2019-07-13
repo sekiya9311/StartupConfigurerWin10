@@ -23,6 +23,13 @@ namespace StartupConfigurerWin10
         public MainWindow()
         {
             InitializeComponent();
+
+            var m = new Model.MainWindowModel(
+                new Model.SelectExecuteFileServiceUseDialog(),
+                new Model.ShortcutService());
+            var vm = new ViewModel.MainWindowViewModel(m);
+
+            this.DataContext = vm;
         }
     }
 }

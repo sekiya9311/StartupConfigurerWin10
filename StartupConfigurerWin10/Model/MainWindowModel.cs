@@ -6,38 +6,31 @@ using System.Text;
 using System.Threading.Tasks;
 
 using StartupConfigurerWin10.Entity;
-using StartupConfigurerWin10.Util;
 
 namespace StartupConfigurerWin10.Model
 {
     class MainWindowModel : IMainWindowModel
     {
-        public MainWindowModel()
-        {
+        public static string StartupPath => System.IO.Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.StartMenu),
+            "Programs",
+            "Startup");
 
+        private readonly ISelectExecuteFileService _selectExecuteFileService;
+        private readonly IShortcutService _shortcutService;
+
+        public MainWindowModel(ISelectExecuteFileService selectExecuteFileService, IShortcutService shortcutService)
+        {
+            _selectExecuteFileService = selectExecuteFileService;
+            _shortcutService = shortcutService;
         }
 
         public IEnumerable<IShortcut> GetStartupShortcuts()
+            => _shortcutService.GetShortcuts(StartupPath);
+
+        public IEnumerable<IShortcut> NewStartupShortcut()
         {
-
-        }
-
-        public void AddStartup()
-        {
-            var ofd = new Microsoft.Win32.OpenFileDialog()
-            {
-                CheckFileExists = true,
-                CheckPathExists = true,
-                Multiselect = true,
-                Filter = "実行ファイル|*.exe"
-            };
-
-            if (!(ofd.ShowDialog() ?? false))
-            {
-                return;
-            }
-
-            var selectFilePathes = ofd.SafeFileNames;
+            var selectFilePathes = _selectExecuteFileService.SelectExecuteFiles();
             foreach (var filePath in selectFilePathes)
             {
                 var fileNameWithoutExt = System.IO.Path.GetFileNameWithoutExtension(filePath);
@@ -45,28 +38,20 @@ namespace StartupConfigurerWin10.Model
                 {
                     Arguments = "",
                     Description = "Make by StartupConfigureWin10",
-                    FullName = System.IO.Path.Combine(ShortcutUtil.StartupPath, fileNameWithoutExt + ".lnk"),
+                    FullName = System.IO.Path.Combine(StartupPath, fileNameWithoutExt + ".lnk"),
                     IconLocation = filePath + ",0",
                     TargetPath = filePath,
                     WindowStyle = WindowStyle.Normal,
                     WorkingDirectory = ""
                 };
+
+                yield return shortcut;
             }
-        }
-
-        public IShortcut NewStartupShortcut()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveStartupShortcut(IShortcut shortcut)
-        {
-            throw new NotImplementedException();
         }
 
         public void SaveStartupShortcuts(IEnumerable<IShortcut> shortcuts)
         {
-            throw new NotImplementedException();
+            _shortcutService.SaveStartup(StartupPath, shortcuts);
         }
 
         [Obsolete("このコンストラクタはデザイナ用です。", true)]
