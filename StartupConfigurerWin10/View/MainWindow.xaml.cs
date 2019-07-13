@@ -24,6 +24,7 @@ namespace StartupConfigurerWin10
         {
             InitializeComponent();
 
+            // TODO: DIしたい...
             var m = new Model.MainWindowModel(
                 new Model.SelectExecuteFileServiceUseDialog(),
                 new Model.ShortcutService());
