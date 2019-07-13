@@ -45,7 +45,8 @@ namespace StartupConfigurerWin10.ViewModel
 
             StartupShortcutsForDisp = StartupShortcuts
                 .ToFilteredReadOnlyObservableCollection(s => !s.Delete)
-                .ToReadOnlyReactiveCollection();
+                .ToReadOnlyReactiveCollection()
+                .AddTo(_disposables);
 
             AddCommand.Subscribe(AddShortcut).AddTo(_disposables);
 
