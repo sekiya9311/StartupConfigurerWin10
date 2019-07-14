@@ -14,5 +14,6 @@ namespace StartupConfigurerWin10.Model
         IEnumerable<IShortcut> GetStartupShortcuts();
         IEnumerable<IShortcut> NewStartupShortcut();
         void SaveStartupShortcuts(IEnumerable<IShortcut> shortcuts);
+        void DeleteStartupShortcuts(IEnumerable<IShortcut> shortcuts);
     }
 }

@@ -54,6 +54,11 @@ namespace StartupConfigurerWin10.Model
             _shortcutService.SaveShortcuts(StartupPath, shortcuts);
         }
 
+        public void DeleteStartupShortcuts(IEnumerable<IShortcut> shortcuts)
+        {
+            _shortcutService.DeleteShortcuts(StartupPath, shortcuts);
+        }
+
         [Obsolete("このコンストラクタはデザイナ用です。", true)]
         public MainWindowModel() { }
     }

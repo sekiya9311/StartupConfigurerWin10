@@ -67,6 +67,18 @@ namespace StartupConfigurerWin10.Model
             }
         }
 
+        public void DeleteShortcuts(string path, IEnumerable<IShortcut> shortcuts)
+        {
+            foreach (var shortcut in shortcuts)
+            {
+                var fullName = System.IO.Path.Combine(path, System.IO.Path.GetFileName(shortcut.FullName));
+                if (System.IO.File.Exists(fullName))
+                {
+                    System.IO.File.Delete(fullName);
+                }
+            }
+        }
+
         /// <summary>
         /// WSHのIWshShortcutから自作IShortcutのインスタンスを生成し返します。
         /// </summary>

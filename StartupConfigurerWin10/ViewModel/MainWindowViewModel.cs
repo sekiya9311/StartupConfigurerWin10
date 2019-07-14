@@ -21,9 +21,9 @@ namespace StartupConfigurerWin10.ViewModel
         private CompositeDisposable _disposables;
         private IMainWindowModel _model;
 
-        public ObservableCollection<ShortcutForDisplay> StartupShortcuts { get; }
+        public ReactiveCollection<ShortcutForDisplay> StartupShortcuts { get; }
 
-        public ReadOnlyReactiveCollection<ShortcutForDisplay> StartupShortcutsForDisp { get; }
+        private ICollection<IShortcut> _removeShortcuts;
 
         public ReactivePropertySlim<int> SelectedShortcutIndex { get; } = new ReactivePropertySlim<int>(-1);
 
@@ -40,13 +40,13 @@ namespace StartupConfigurerWin10.ViewModel
             _disposables = new CompositeDisposable();
             _model = model;
 
-            StartupShortcuts = new ObservableCollection<ShortcutForDisplay>(
-                _model.GetStartupShortcuts().Select(s => new ShortcutForDisplay(s)));
-
-            StartupShortcutsForDisp = StartupShortcuts
-                .ToFilteredReadOnlyObservableCollection(s => !s.Delete)
-                .ToReadOnlyReactiveCollection()
+            StartupShortcuts = new ReactiveCollection<ShortcutForDisplay>(
+                _model.GetStartupShortcuts()
+                    .Select(s => new ShortcutForDisplay(s))
+                    .ToObservable())
                 .AddTo(_disposables);
+
+            _removeShortcuts = new List<IShortcut>();
 
             AddCommand.Subscribe(AddShortcut).AddTo(_disposables);
 
@@ -72,17 +72,16 @@ namespace StartupConfigurerWin10.ViewModel
                 return;
             }
 
-            var deleteShortcutDisp = StartupShortcutsForDisp[SelectedShortcutIndex.Value];
-            var deleteShortcut = StartupShortcuts.Where(s => s.Equals(deleteShortcutDisp)).First();
-            StartupShortcuts.Remove(deleteShortcut);
-            deleteShortcut.Delete = true;
-            StartupShortcuts.Add(deleteShortcut);
+            var removeShortcut = StartupShortcuts[SelectedShortcutIndex.Value];
+            _removeShortcuts.Add(removeShortcut);
+            StartupShortcuts.RemoveAt(SelectedShortcutIndex.Value);
 
             SelectedShortcutIndex.Value = -1;
         }
 
         private void SaveShortcuts()
         {
+            _model.DeleteStartupShortcuts(_removeShortcuts);
             _model.SaveStartupShortcuts(StartupShortcuts);
 
         }
