@@ -19,8 +19,8 @@ namespace StartupConfigurerWin10.Model
         {
             var shell = new IWshRuntimeLibrary.WshShell();
 
-            var startupFiles = System.IO.Directory.EnumerateFiles(path, "*.lnk");
-            foreach (var filePath in startupFiles)
+            var shortcutFiles = System.IO.Directory.EnumerateFiles(path, "*.lnk");
+            foreach (var filePath in shortcutFiles)
             {
                 if (!(shell.CreateShortcut(filePath) is IWshRuntimeLibrary.IWshShortcut wshShortcut))
                 {
