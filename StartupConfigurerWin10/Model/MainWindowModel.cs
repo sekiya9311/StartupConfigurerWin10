@@ -51,7 +51,7 @@ namespace StartupConfigurerWin10.Model
 
         public void SaveStartupShortcuts(IEnumerable<IShortcut> shortcuts)
         {
-            _shortcutService.SaveStartup(StartupPath, shortcuts);
+            _shortcutService.SaveShortcuts(StartupPath, shortcuts);
         }
 
         [Obsolete("このコンストラクタはデザイナ用です。", true)]

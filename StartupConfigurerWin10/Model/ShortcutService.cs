@@ -44,7 +44,7 @@ namespace StartupConfigurerWin10.Model
         /// </summary>
         /// <param name="path">ショートカットを保存するパス</param>
         /// <param name="shortcuts">保存対象のショートカット</param>
-        public void SaveStartup(string path, IEnumerable<IShortcut> shortcuts)
+        public void SaveShortcuts(string path, IEnumerable<IShortcut> shortcuts)
         {
             var curStartupFiles = System.IO.Directory.EnumerateFiles(path);
             foreach (var filePath in curStartupFiles)
