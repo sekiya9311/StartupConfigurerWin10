@@ -46,18 +46,12 @@ namespace StartupConfigurerWin10.Model
         /// <param name="shortcuts">保存対象のショートカット</param>
         public void SaveShortcuts(string path, IEnumerable<IShortcut> shortcuts)
         {
-            var curStartupFiles = System.IO.Directory.EnumerateFiles(path);
-            foreach (var filePath in curStartupFiles)
-            {
-                System.IO.File.Delete(filePath);
-            }
-
             foreach (var shortcut in shortcuts)
             {
                 var fullName = System.IO.Path.Combine(path, System.IO.Path.GetFileName(shortcut.FullName));
                 if (System.IO.File.Exists(fullName))
                 {
-                    System.IO.Directory.Delete(fullName);
+                    System.IO.File.Delete(fullName);
                 }
                 shortcut.FullName = fullName;
 
