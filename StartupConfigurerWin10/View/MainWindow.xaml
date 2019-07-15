@@ -14,8 +14,8 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="5,5,5,5">
+                        <Image Source="{Binding IconImageSource}" Width="32" Height="32" Margin="5,5,5,5" />
                         <Label Content="{Binding FileName}" />
-                        <Image Source="{Binding IconLocation}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

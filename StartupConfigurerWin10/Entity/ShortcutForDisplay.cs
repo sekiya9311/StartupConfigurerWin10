@@ -4,6 +4,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Windows.Media.Imaging;
+using System.Windows.Interop;
+using System.IO;
 
 using Reactive.Bindings;
 
@@ -47,6 +52,34 @@ namespace StartupConfigurerWin10.Entity
 
         public string FileName => System.IO.Path.GetFileNameWithoutExtension(FullName);
 
+        public BitmapSource IconImageSource
+        {
+            get
+            {
+                if (!File.Exists(TargetPath))
+                {
+                    return null;
+                }
+
+                using (var icon = Icon.ExtractAssociatedIcon(TargetPath))
+                using (var iconBmp = icon.ToBitmap())
+                {
+                    var handle = iconBmp.GetHbitmap();
+                    try
+                    {
+                        return Imaging.CreateBitmapSourceFromHBitmap(
+                            handle,
+                            IntPtr.Zero,
+                            System.Windows.Int32Rect.Empty,
+                            BitmapSizeOptions.FromEmptyOptions());
+                    }
+                    finally
+                    {
+                        DeleteObject(handle);
+                    }
+                }
+            }
+        }
 
         public bool Equals(ShortcutForDisplay other)
         {
@@ -62,5 +95,9 @@ namespace StartupConfigurerWin10.Entity
 
             return true;
         }
+
+        [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool DeleteObject([In] IntPtr hObject);
     }
 }
