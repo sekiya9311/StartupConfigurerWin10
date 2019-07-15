@@ -12,7 +12,7 @@ namespace StartupConfigurerWin10.Entity
     /// <remarks>
     /// HACK: とりあえず使いそうなやつのみ
     /// </remarks>
-    class Shortcut : IShortcut
+    public class Shortcut : IShortcut
     {
         /// <summary> ショートカットのアイコンのパスを取得、設定します。 </summary>
         public string IconLocation { get; set; }
@@ -28,6 +28,33 @@ namespace StartupConfigurerWin10.Entity
         public string Description { get; set; }
         /// <summary> ショートカットファイルのフルパスを取得、設定します。 </summary>
         public string FullName { get; set; }
+
+        public bool Equals(IShortcut other)
+        {
+            if (IconLocation != other.IconLocation ||
+                TargetPath != other.TargetPath ||
+                Arguments != other.Arguments ||
+                WorkingDirectory != other.WorkingDirectory ||
+                WindowStyle != other.WindowStyle ||
+                Description != other.Description ||
+                FullName != other.FullName)
+                return false;
+
+            return true;
+        }
+
+        public override bool Equals(object obj)
+            => (obj is IShortcut s) && Equals(s);
+
+        public override int GetHashCode()
+            => IconLocation.GetHashCode() ^
+                TargetPath.GetHashCode() ^
+                Arguments.GetHashCode() ^
+                WorkingDirectory.GetHashCode() ^
+                WindowStyle.GetHashCode() ^
+                WindowStyle.GetHashCode() ^
+                Description.GetHashCode() ^
+                FullName.GetHashCode();
     }
 
     /// <summary>

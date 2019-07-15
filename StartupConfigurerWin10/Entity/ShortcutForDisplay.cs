@@ -14,7 +14,7 @@ using Reactive.Bindings;
 
 namespace StartupConfigurerWin10.Entity
 {
-    public class ShortcutForDisplay : IShortcut, IEquatable<ShortcutForDisplay>, INotifyPropertyChanged
+    public class ShortcutForDisplay : IShortcut, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -81,7 +81,7 @@ namespace StartupConfigurerWin10.Entity
             }
         }
 
-        public bool Equals(ShortcutForDisplay other)
+        public bool Equals(IShortcut other)
         {
             if (IconLocation != other.IconLocation ||
                 TargetPath != other.TargetPath ||
@@ -89,12 +89,24 @@ namespace StartupConfigurerWin10.Entity
                 WorkingDirectory != other.WorkingDirectory ||
                 WindowStyle != other.WindowStyle ||
                 Description != other.Description ||
-                FullName != other.FullName ||
-                FileName != other.FileName)
+                FullName != other.FullName)
                 return false;
 
             return true;
         }
+
+        public override bool Equals(object obj)
+            => (obj is IShortcut s) && Equals(s);
+
+        public override int GetHashCode()
+            => IconLocation.GetHashCode() ^
+                TargetPath.GetHashCode() ^
+                Arguments.GetHashCode() ^
+                WorkingDirectory.GetHashCode() ^
+                WindowStyle.GetHashCode() ^
+                WindowStyle.GetHashCode() ^
+                Description.GetHashCode() ^
+                FullName.GetHashCode();
 
         [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
         [return: MarshalAs(UnmanagedType.Bool)]
