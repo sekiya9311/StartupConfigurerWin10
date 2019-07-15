@@ -12,7 +12,7 @@ using StartupConfigurerWin10.ViewModel;
 using Moq;
 using Xunit;
 
-namespace StartupConfigureTestWin10.Tests
+namespace StartupConfigurerWin10.Tests
 {
     public class MainWindowViewModelTest
     {

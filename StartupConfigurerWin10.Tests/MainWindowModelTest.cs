@@ -10,7 +10,7 @@ using StartupConfigurerWin10.Entity;
 using Moq;
 using Xunit;
 
-namespace StartupConfigureTestWin10.Tests
+namespace StartupConfigurerWin10.Tests
 {
     public class MainWindowModelTest
     {
@@ -72,7 +72,7 @@ namespace StartupConfigureTestWin10.Tests
                     new Shortcut()
                     {
                         Arguments = "",
-                        Description = "Make by StartupConfigureWin10",
+                        Description = "Make by StartupConfigurerWin10",
                         FullName = System.IO.Path.Combine(MainWindowModel.StartupPath, "hoge.lnk"),
                         IconLocation = "hoge,0",
                         TargetPath= "hoge",

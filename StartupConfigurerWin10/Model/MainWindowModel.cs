@@ -37,7 +37,7 @@ namespace StartupConfigurerWin10.Model
                 var shortcut = new Shortcut()
                 {
                     Arguments = "",
-                    Description = "Make by StartupConfigureWin10",
+                    Description = "Make by StartupConfigurerWin10",
                     FullName = System.IO.Path.Combine(StartupPath, fileNameWithoutExt + ".lnk"),
                     IconLocation = filePath + ",0",
                     TargetPath = filePath,
