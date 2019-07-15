@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StartupConfigurerWin10.Model
 {
-    interface ISelectExecuteFileService
+    public interface ISelectExecuteFileService
     {
         string SelectExecuteFile();
         IEnumerable<string> SelectExecuteFiles();

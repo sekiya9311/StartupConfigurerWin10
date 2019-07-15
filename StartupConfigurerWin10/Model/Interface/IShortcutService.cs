@@ -8,7 +8,7 @@ using StartupConfigurerWin10.Entity;
 
 namespace StartupConfigurerWin10.Model
 {
-    interface IShortcutService
+    public interface IShortcutService
     {
         // <summary>
         /// 指定したディレクトリパスのショートカットをシーケンスで返します。

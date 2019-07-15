@@ -9,7 +9,7 @@ using StartupConfigurerWin10.Entity;
 
 namespace StartupConfigurerWin10.Model
 {
-    class MainWindowModel : IMainWindowModel
+    public class MainWindowModel : IMainWindowModel
     {
         public static string StartupPath => System.IO.Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.StartMenu),
