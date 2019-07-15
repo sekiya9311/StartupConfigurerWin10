@@ -47,8 +47,6 @@ namespace StartupConfigurerWin10.Entity
 
         public string FileName => System.IO.Path.GetFileNameWithoutExtension(FullName);
 
-        private ReactivePropertySlim<bool> _delete = new ReactivePropertySlim<bool>();
-        public bool Delete { get => _delete.Value; set => _delete.Value = value; }
 
         public bool Equals(ShortcutForDisplay other)
         {
