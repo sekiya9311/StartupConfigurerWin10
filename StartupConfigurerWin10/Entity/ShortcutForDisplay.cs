@@ -52,14 +52,15 @@ namespace StartupConfigurerWin10.Entity
 
         public bool Equals(ShortcutForDisplay other)
         {
-            if (IconLocation != other.IconLocation) return false;
-            if (TargetPath != other.TargetPath) return false;
-            if (Arguments != other.Arguments) return false;
-            if (WorkingDirectory != other.WorkingDirectory) return false;
-            if (WindowStyle != other.WindowStyle) return false;
-            if (Description != other.Description) return false;
-            if (FullName != other.FullName) return false;
-            if (FileName != other.FileName) return false;
+            if (IconLocation != other.IconLocation ||
+                TargetPath != other.TargetPath ||
+                Arguments != other.Arguments ||
+                WorkingDirectory != other.WorkingDirectory ||
+                WindowStyle != other.WindowStyle ||
+                Description != other.Description ||
+                FullName != other.FullName ||
+                FileName != other.FileName)
+                return false;
 
             return true;
         }
