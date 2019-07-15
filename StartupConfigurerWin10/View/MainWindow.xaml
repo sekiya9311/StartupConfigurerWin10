@@ -9,7 +9,7 @@
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
-    <DockPanel>
+    <DockPanel LastChildFill="false">
         <ListBox DockPanel.Dock="Top" ItemsSource="{Binding StartupShortcuts}" SelectedIndex="{Binding SelectedShortcutIndex.Value}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -30,7 +30,7 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
-        <UniformGrid Rows="1" DockPanel.Dock="Bottom">
+        <UniformGrid Rows="1" DockPanel.Dock="Bottom" Margin="10,5,10,5">
             <Button Content="追加" Command="{Binding AddCommand}" />
             <Button Content="削除" Command="{Binding RemoveCommand}" />
             <Button Content="保存" Command="{Binding SaveCommand}" />
