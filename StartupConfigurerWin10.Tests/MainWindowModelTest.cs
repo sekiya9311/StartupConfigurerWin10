@@ -49,7 +49,7 @@ namespace StartupConfigurerWin10.Tests
         };
 
         [Fact]
-        public void Test()
+        public void GetStartupShortcutsTest()
         {
             var mockSelectExecuteFileService = new Mock<ISelectExecuteFileService>();
             var mockShortcutService = new Mock<IShortcutService>();
@@ -60,8 +60,19 @@ namespace StartupConfigurerWin10.Tests
 
             mockShortcutService
                 .Setup(m => m.GetShortcuts(MainWindowModel.StartupPath))
-                .Returns(_samples.Take(1));
-            Assert.Equal(_samples.Take(1), model.GetStartupShortcuts());
+                .Returns(_samples);
+            Assert.Equal(_samples, model.GetStartupShortcuts());
+        }
+
+        [Fact]
+        public void NewStartupShortcutTest()
+        {
+            var mockSelectExecuteFileService = new Mock<ISelectExecuteFileService>();
+            var mockShortcutService = new Mock<IShortcutService>();
+
+            var model = new MainWindowModel(
+                mockSelectExecuteFileService.Object,
+                mockShortcutService.Object);
 
             mockSelectExecuteFileService
                 .Setup(m => m.SelectExecuteFiles())
@@ -81,21 +92,44 @@ namespace StartupConfigurerWin10.Tests
                     }
                 },
                 model.NewStartupShortcut());
+        }
 
-            model.SaveStartupShortcuts(_samples.Skip(1).Take(1));
+        [Fact]
+        public void SaveStartupShortcuts()
+        {
+            var mockSelectExecuteFileService = new Mock<ISelectExecuteFileService>();
+            var mockShortcutService = new Mock<IShortcutService>();
+
+            var model = new MainWindowModel(
+                mockSelectExecuteFileService.Object,
+                mockShortcutService.Object);
+
+            model.SaveStartupShortcuts(_samples);
+
             mockShortcutService.Verify(
                 m => m.SaveShortcuts(
                     MainWindowModel.StartupPath,
                     It.Is<IEnumerable<IShortcut>>(
-                        a => a.SequenceEqual(_samples.Skip(1).Take(1)))),
+                        a => a.SequenceEqual(_samples))),
                 Times.Once());
+        }
 
-            model.DeleteStartupShortcuts(_samples.Skip(2));
+        [Fact]
+        public void DeleteStartupShortcutsTest()
+        {
+            var mockSelectExecuteFileService = new Mock<ISelectExecuteFileService>();
+            var mockShortcutService = new Mock<IShortcutService>();
+
+            var model = new MainWindowModel(
+                mockSelectExecuteFileService.Object,
+                mockShortcutService.Object);
+
+            model.DeleteStartupShortcuts(_samples);
             mockShortcutService.Verify(
                 m => m.DeleteShortcuts(
                     MainWindowModel.StartupPath,
                     It.Is<IEnumerable<IShortcut>>(
-                        a => a.SequenceEqual(_samples.Skip(2)))),
+                        a => a.SequenceEqual(_samples))),
                 Times.Once());
         }
     }
