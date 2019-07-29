@@ -39,6 +39,10 @@ namespace StartupConfigurerWin10.ViewModel
 
             _disposables = new CompositeDisposable();
             _model = model;
+            if (_model is IDisposable disposableModel)
+            {
+                _disposables.Add(disposableModel);
+            }
 
             StartupShortcuts = new ReactiveCollection<ShortcutForDisplay>(
                 _model.GetStartupShortcuts()
@@ -83,7 +87,6 @@ namespace StartupConfigurerWin10.ViewModel
         {
             _model.DeleteStartupShortcuts(_removeShortcuts);
             _model.SaveStartupShortcuts(StartupShortcuts);
-
         }
 
         public void Dispose()
