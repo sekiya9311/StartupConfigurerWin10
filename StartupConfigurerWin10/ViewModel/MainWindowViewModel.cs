@@ -93,8 +93,5 @@ namespace StartupConfigurerWin10.ViewModel
         {
             _disposables.Dispose();
         }
-
-        [Obsolete("このコンストラクタはデザイナ用です。", true)]
-        public MainWindowViewModel() : this(null) { }
     }
 }

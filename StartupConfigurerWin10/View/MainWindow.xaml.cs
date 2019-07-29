@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using StartupConfigurerWin10.ViewModel;
+
 namespace StartupConfigurerWin10
 {
     /// <summary>
@@ -20,18 +22,11 @@ namespace StartupConfigurerWin10
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(MainWindowViewModel viewModel)
         {
             InitializeComponent();
 
-            // TODO: DIしたい...
-            var m = new Model.MainWindowModel(
-                new Model.SelectExecuteFileServiceUseDialog(),
-                new Model.ShortcutService(),
-                new Model.DialogServiceWithMessageBox());
-            var vm = new ViewModel.MainWindowViewModel(m);
-
-            this.DataContext = vm;
+            this.DataContext = viewModel;
         }
 
         protected override void OnClosed(EventArgs e)

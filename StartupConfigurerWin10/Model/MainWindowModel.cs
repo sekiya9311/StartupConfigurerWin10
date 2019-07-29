@@ -73,8 +73,5 @@ namespace StartupConfigurerWin10.Model
         {
             _dialogService.ShowMessage(message, caption);
         }
-
-        [Obsolete("このコンストラクタはデザイナ用です。", true)]
-        public MainWindowModel() { }
     }
 }
