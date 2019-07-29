@@ -28,11 +28,5 @@ namespace StartupConfigurerWin10
 
             this.DataContext = viewModel;
         }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
-            (this.DataContext as IDisposable)?.Dispose();
-        }
     }
 }
