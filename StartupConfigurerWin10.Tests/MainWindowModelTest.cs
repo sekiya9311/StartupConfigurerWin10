@@ -53,10 +53,12 @@ namespace StartupConfigurerWin10.Tests
         {
             var mockSelectExecuteFileService = new Mock<ISelectExecuteFileService>();
             var mockShortcutService = new Mock<IShortcutService>();
+            var mockDialogService = new Mock<IDialogService>();
 
             var model = new MainWindowModel(
                 mockSelectExecuteFileService.Object,
-                mockShortcutService.Object);
+                mockShortcutService.Object,
+                mockDialogService.Object);
 
             mockShortcutService
                 .Setup(m => m.GetShortcuts(MainWindowModel.StartupPath))
@@ -69,10 +71,12 @@ namespace StartupConfigurerWin10.Tests
         {
             var mockSelectExecuteFileService = new Mock<ISelectExecuteFileService>();
             var mockShortcutService = new Mock<IShortcutService>();
+            var mockDialogService = new Mock<IDialogService>();
 
             var model = new MainWindowModel(
                 mockSelectExecuteFileService.Object,
-                mockShortcutService.Object);
+                mockShortcutService.Object,
+                mockDialogService.Object);
 
             mockSelectExecuteFileService
                 .Setup(m => m.SelectExecuteFiles())
@@ -99,10 +103,12 @@ namespace StartupConfigurerWin10.Tests
         {
             var mockSelectExecuteFileService = new Mock<ISelectExecuteFileService>();
             var mockShortcutService = new Mock<IShortcutService>();
+            var mockDialogService = new Mock<IDialogService>();
 
             var model = new MainWindowModel(
                 mockSelectExecuteFileService.Object,
-                mockShortcutService.Object);
+                mockShortcutService.Object,
+                mockDialogService.Object);
 
             model.SaveStartupShortcuts(_samples);
 
@@ -112,6 +118,9 @@ namespace StartupConfigurerWin10.Tests
                     It.Is<IEnumerable<IShortcut>>(
                         a => a.SequenceEqual(_samples))),
                 Times.Once());
+            mockDialogService.Verify(
+                s => s.ShowMessage(It.IsAny<string>(), It.IsAny<string>()),
+                Times.Once());
         }
 
         [Fact]
@@ -119,10 +128,12 @@ namespace StartupConfigurerWin10.Tests
         {
             var mockSelectExecuteFileService = new Mock<ISelectExecuteFileService>();
             var mockShortcutService = new Mock<IShortcutService>();
+            var mockDialogService = new Mock<IDialogService>();
 
             var model = new MainWindowModel(
                 mockSelectExecuteFileService.Object,
-                mockShortcutService.Object);
+                mockShortcutService.Object,
+                mockDialogService.Object);
 
             model.DeleteStartupShortcuts(_samples);
             mockShortcutService.Verify(

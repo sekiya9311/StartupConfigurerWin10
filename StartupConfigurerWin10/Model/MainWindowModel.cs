@@ -18,11 +18,13 @@ namespace StartupConfigurerWin10.Model
 
         private readonly ISelectExecuteFileService _selectExecuteFileService;
         private readonly IShortcutService _shortcutService;
+        private readonly IDialogService _dialogService;
 
-        public MainWindowModel(ISelectExecuteFileService selectExecuteFileService, IShortcutService shortcutService)
+        public MainWindowModel(ISelectExecuteFileService selectExecuteFileService, IShortcutService shortcutService, IDialogService dialogService)
         {
             _selectExecuteFileService = selectExecuteFileService;
             _shortcutService = shortcutService;
+            _dialogService = dialogService;
         }
 
         public IEnumerable<IShortcut> GetStartupShortcuts()
@@ -51,12 +53,25 @@ namespace StartupConfigurerWin10.Model
 
         public void SaveStartupShortcuts(IEnumerable<IShortcut> shortcuts)
         {
-            _shortcutService.SaveShortcuts(StartupPath, shortcuts);
+            try
+            {
+                _shortcutService.SaveShortcuts(StartupPath, shortcuts);
+                _dialogService.ShowMessage("保存しました。");
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public void DeleteStartupShortcuts(IEnumerable<IShortcut> shortcuts)
         {
             _shortcutService.DeleteShortcuts(StartupPath, shortcuts);
+        }
+
+        public void ShowMessage(string message, string caption)
+        {
+            _dialogService.ShowMessage(message, caption);
         }
 
         [Obsolete("このコンストラクタはデザイナ用です。", true)]

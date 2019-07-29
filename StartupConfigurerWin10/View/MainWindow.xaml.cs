@@ -27,7 +27,8 @@ namespace StartupConfigurerWin10
             // TODO: DIしたい...
             var m = new Model.MainWindowModel(
                 new Model.SelectExecuteFileServiceUseDialog(),
-                new Model.ShortcutService());
+                new Model.ShortcutService(),
+                new Model.DialogServiceWithMessageBox());
             var vm = new ViewModel.MainWindowViewModel(m);
 
             this.DataContext = vm;
