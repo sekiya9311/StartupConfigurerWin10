@@ -104,6 +104,7 @@
     <Compile Include="Entity\IShortcut.cs" />
     <Compile Include="Entity\Shortcut.cs" />
     <Compile Include="Entity\ShortcutForDisplay.cs" />
+    <Compile Include="Extensions\FileSystemWatcherExtensions.cs" />
     <Compile Include="Model\DialogServiceWithMessageBox.cs" />
     <Compile Include="Model\Interface\IDialogService.cs" />
     <Compile Include="Model\Interface\IShortcutService.cs" />
