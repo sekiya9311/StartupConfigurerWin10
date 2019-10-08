@@ -44,11 +44,14 @@
                      DockPanel.Dock="Bottom"
                      Margin="10,5,10,5">
             <Button Content="追加"
-                    Command="{Binding AddCommand}" />
+                    Command="{Binding AddCommand}"
+                    Margin="5,5,5,5" />
             <Button Content="削除"
-                    Command="{Binding RemoveCommand}" />
+                    Command="{Binding RemoveCommand}"
+                    Margin="5,5,5,5" />
             <Button Content="Explorer で開く"
-                    Command="{Binding OpenExplorerCommand}" />
+                    Command="{Binding OpenExplorerCommand}"
+                    Margin="5,5,5,5" />
         </UniformGrid>
     </DockPanel>
 </Window>
