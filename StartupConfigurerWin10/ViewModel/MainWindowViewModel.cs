@@ -29,6 +29,8 @@ namespace StartupConfigurerWin10.ViewModel
 
         public ReactiveCommand RemoveCommand { get; } = new ReactiveCommand();
 
+        public ReactiveCommand OpenExplorerCommand { get; } = new ReactiveCommand();
+
         public MainWindowViewModel(IMainWindowModel model)
         {
             if (model is null) return;
@@ -52,6 +54,10 @@ namespace StartupConfigurerWin10.ViewModel
             RemoveCommand
                 .Subscribe(RemoveShortcut)
                 .AddTo(_disposables);
+
+            OpenExplorerCommand
+                .Subscribe(OpenExplorer)
+                .AddTo(_disposables);
         }
 
         private void AddShortcut()
@@ -70,6 +76,11 @@ namespace StartupConfigurerWin10.ViewModel
             _model.DeleteStartupShortcut(removeShortcut);
 
             SelectedShortcutIndex.Value = -1;
+        }
+
+        private void OpenExplorer()
+        {
+            _model.OpenStartupDirectory();
         }
 
         public void Dispose()

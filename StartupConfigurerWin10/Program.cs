@@ -40,6 +40,7 @@ namespace StartupConfigurerWin10
             container.Register<IDialogService, DialogServiceWithMessageBox>(Lifestyle.Singleton);
             container.Register<ISelectExecuteFileService, SelectExecuteFileServiceUseDialog>(Lifestyle.Singleton);
             container.Register<IShortcutService, ShortcutService>(Lifestyle.Singleton);
+            container.Register<IOpenExolorerService, OpenExplorerService>(Lifestyle.Singleton);
             container.Register<IMainWindowModel, MainWindowModel>(Lifestyle.Singleton);
 
             container.Register<MainWindowViewModel>(Lifestyle.Singleton);

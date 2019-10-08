@@ -47,6 +47,8 @@
                     Command="{Binding AddCommand}" />
             <Button Content="削除"
                     Command="{Binding RemoveCommand}" />
+            <Button Content="Explorer で開く"
+                    Command="{Binding OpenExplorerCommand}" />
         </UniformGrid>
     </DockPanel>
 </Window>

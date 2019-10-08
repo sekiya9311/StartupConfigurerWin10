@@ -25,15 +25,18 @@ namespace StartupConfigurerWin10.Model
         private readonly ISelectExecuteFileService _selectExecuteFileService;
         private readonly IShortcutService _shortcutService;
         private readonly IDialogService _dialogService;
+        private readonly IOpenExolorerService _openExolorerService;
 
         public MainWindowModel(
             ISelectExecuteFileService selectExecuteFileService,
             IShortcutService shortcutService,
-            IDialogService dialogService)
+            IDialogService dialogService,
+            IOpenExolorerService openExolorerService)
         {
             _selectExecuteFileService = selectExecuteFileService;
             _shortcutService = shortcutService;
             _dialogService = dialogService;
+            _openExolorerService = openExolorerService;
 
             _wathcer = new FileSystemWatcher(StartupPath, "*.*") { EnableRaisingEvents = true };
             StartupShortcuts = new[]
@@ -80,6 +83,11 @@ namespace StartupConfigurerWin10.Model
         public void DeleteStartupShortcuts(IEnumerable<IShortcut> shortcuts)
         {
             _shortcutService.DeleteShortcuts(StartupPath, shortcuts);
+        }
+
+        public void OpenStartupDirectory()
+        {
+            _openExolorerService.Open(StartupPath);
         }
 
         public void ShowMessage(string message, string caption)
