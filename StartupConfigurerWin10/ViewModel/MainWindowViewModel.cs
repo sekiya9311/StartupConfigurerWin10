@@ -21,17 +21,13 @@ namespace StartupConfigurerWin10.ViewModel
         private CompositeDisposable _disposables;
         private IMainWindowModel _model;
 
-        public ReactiveCollection<ShortcutForDisplay> StartupShortcuts { get; }
-
-        private ICollection<IShortcut> _removeShortcuts;
+        public ReadOnlyReactivePropertySlim<List<ShortcutForDisplay>> StartupShortcuts { get; }
 
         public ReactivePropertySlim<int> SelectedShortcutIndex { get; } = new ReactivePropertySlim<int>(-1);
 
         public ReactiveCommand AddCommand { get; } = new ReactiveCommand();
 
         public ReactiveCommand RemoveCommand { get; } = new ReactiveCommand();
-
-        public ReactiveCommand SaveCommand { get; } = new ReactiveCommand();
 
         public MainWindowViewModel(IMainWindowModel model)
         {
@@ -44,29 +40,23 @@ namespace StartupConfigurerWin10.ViewModel
                 _disposables.Add(disposableModel);
             }
 
-            StartupShortcuts = new ReactiveCollection<ShortcutForDisplay>(
-                _model.GetStartupShortcuts()
-                    .Select(s => new ShortcutForDisplay(s))
-                    .ToObservable())
+            StartupShortcuts = _model.StartupShortcuts
+                .Select(x => x?.Select(i => new ShortcutForDisplay(i)).ToList())
+                .ToReadOnlyReactivePropertySlim(new List<ShortcutForDisplay>())
                 .AddTo(_disposables);
 
-            _removeShortcuts = new List<IShortcut>();
+            AddCommand
+                .Subscribe(AddShortcut)
+                .AddTo(_disposables);
 
-            AddCommand.Subscribe(AddShortcut).AddTo(_disposables);
-
-            RemoveCommand.Subscribe(RemoveShortcut).AddTo(_disposables);
-
-            SaveCommand.Subscribe(SaveShortcuts).AddTo(_disposables);
+            RemoveCommand
+                .Subscribe(RemoveShortcut)
+                .AddTo(_disposables);
         }
 
         private void AddShortcut()
         {
-            var newShortcuts = _model.NewStartupShortcut()
-                .Select(s => new ShortcutForDisplay(s));
-            foreach (var s in newShortcuts)
-            {
-                StartupShortcuts.Add(s);
-            }
+            _model.NewStartupShortcut();
         }
 
         private void RemoveShortcut()
@@ -76,17 +66,10 @@ namespace StartupConfigurerWin10.ViewModel
                 return;
             }
 
-            var removeShortcut = StartupShortcuts[SelectedShortcutIndex.Value];
-            _removeShortcuts.Add(removeShortcut);
-            StartupShortcuts.RemoveAt(SelectedShortcutIndex.Value);
+            var removeShortcut = StartupShortcuts.Value[SelectedShortcutIndex.Value];
+            _model.DeleteStartupShortcut(removeShortcut);
 
             SelectedShortcutIndex.Value = -1;
-        }
-
-        private void SaveShortcuts()
-        {
-            _model.DeleteStartupShortcuts(_removeShortcuts);
-            _model.SaveStartupShortcuts(StartupShortcuts);
         }
 
         public void Dispose()

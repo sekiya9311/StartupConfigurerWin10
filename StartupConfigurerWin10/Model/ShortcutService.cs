@@ -39,6 +39,26 @@ namespace StartupConfigurerWin10.Model
             }
         }
 
+        public void SaveShortcut(string path, IShortcut shortcut)
+        {
+            var fullName = System.IO.Path.Combine(path, System.IO.Path.GetFileName(shortcut.FullName));
+            if (System.IO.File.Exists(fullName))
+            {
+                System.IO.File.Delete(fullName);
+            }
+            shortcut.FullName = fullName;
+
+            var wshShortcut = ConvertIShortcutToIWshShortcut(shortcut);
+            try
+            {
+                wshShortcut.Save();
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(wshShortcut);
+            }
+        }
+
         /// <summary>
         /// 引数のショートカットを指定したディレクトリに作成します。
         /// </summary>
@@ -48,22 +68,16 @@ namespace StartupConfigurerWin10.Model
         {
             foreach (var shortcut in shortcuts)
             {
-                var fullName = System.IO.Path.Combine(path, System.IO.Path.GetFileName(shortcut.FullName));
-                if (System.IO.File.Exists(fullName))
-                {
-                    System.IO.File.Delete(fullName);
-                }
-                shortcut.FullName = fullName;
+                SaveShortcut(path, shortcut);
+            }
+        }
 
-                var wshShortcut = ConvertIShortcutToIWshShortcut(shortcut);
-                try
-                {
-                    wshShortcut.Save();
-                }
-                finally
-                {
-                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(wshShortcut);
-                }
+        public void DeleteShortcut(string path, IShortcut shortcut)
+        {
+            var fullName = System.IO.Path.Combine(path, System.IO.Path.GetFileName(shortcut.FullName));
+            if (System.IO.File.Exists(fullName))
+            {
+                System.IO.File.Delete(fullName);
             }
         }
 
@@ -71,11 +85,7 @@ namespace StartupConfigurerWin10.Model
         {
             foreach (var shortcut in shortcuts)
             {
-                var fullName = System.IO.Path.Combine(path, System.IO.Path.GetFileName(shortcut.FullName));
-                if (System.IO.File.Exists(fullName))
-                {
-                    System.IO.File.Delete(fullName);
-                }
+                DeleteShortcut(path, shortcut);
             }
         }
 

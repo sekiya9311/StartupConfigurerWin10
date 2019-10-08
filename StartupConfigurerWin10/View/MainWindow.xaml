@@ -3,18 +3,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewmodels="clr-namespace:StartupConfigurerWin10.ViewModel"
         xmlns:matrialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Win10でもスタートアップを簡単に設定したい!!" Height="600" Width="800">
+        Title="Win10でもスタートアップを簡単に設定したい!!"
+        Height="600"
+        Width="800">
     <DockPanel LastChildFill="false">
-        <ListBox DockPanel.Dock="Top" ItemsSource="{Binding StartupShortcuts}" SelectedIndex="{Binding SelectedShortcutIndex.Value}">
+        <ListBox DockPanel.Dock="Top"
+                 ItemsSource="{Binding StartupShortcuts.Value}"
+                 SelectedIndex="{Binding SelectedShortcutIndex.Value}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <matrialDesign:Card Width="100">
                         <StackPanel>
-                            <Image Source="{Binding IconImageSource}" Width="32" Height="32" Margin="5,5,5,5" />
-                            <TextBlock Text="{Binding FileName}" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="5,5,5,5" />
+                            <Image Source="{Binding IconImageSource}"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="5,5,5,5" />
+                            <TextBlock Text="{Binding FileName}"
+                                       TextWrapping="Wrap"
+                                       HorizontalAlignment="Center"
+                                       Margin="5,5,5,5" />
                         </StackPanel>
                     </matrialDesign:Card>
                 </DataTemplate>
@@ -26,14 +35,18 @@
             </ListBox.ItemsPanel>
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
-                    <Setter Property="ToolTip" Value="{Binding TargetPath}" />
+                    <Setter Property="ToolTip"
+                            Value="{Binding TargetPath}" />
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
-        <UniformGrid Rows="1" DockPanel.Dock="Bottom" Margin="10,5,10,5">
-            <Button Content="追加" Command="{Binding AddCommand}" />
-            <Button Content="削除" Command="{Binding RemoveCommand}" />
-            <Button Content="保存" Command="{Binding SaveCommand}" />
+        <UniformGrid Rows="1"
+                     DockPanel.Dock="Bottom"
+                     Margin="10,5,10,5">
+            <Button Content="追加"
+                    Command="{Binding AddCommand}" />
+            <Button Content="削除"
+                    Command="{Binding RemoveCommand}" />
         </UniformGrid>
     </DockPanel>
 </Window>

@@ -1,67 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Reactive.Bindings;
 using StartupConfigurerWin10.Entity;
+using StartupConfigurerWin10.Extensions;
 
 namespace StartupConfigurerWin10.Model
 {
     public class MainWindowModel : IMainWindowModel
     {
-        public static string StartupPath => System.IO.Path.Combine(
+        public static string StartupPath => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.StartMenu),
             "Programs",
             "Startup");
 
+        public ReadOnlyReactivePropertySlim<List<IShortcut>> StartupShortcuts { get; }
+
+        private readonly FileSystemWatcher _wathcer;
         private readonly ISelectExecuteFileService _selectExecuteFileService;
         private readonly IShortcutService _shortcutService;
         private readonly IDialogService _dialogService;
 
-        public MainWindowModel(ISelectExecuteFileService selectExecuteFileService, IShortcutService shortcutService, IDialogService dialogService)
+        public MainWindowModel(
+            ISelectExecuteFileService selectExecuteFileService,
+            IShortcutService shortcutService,
+            IDialogService dialogService)
         {
             _selectExecuteFileService = selectExecuteFileService;
             _shortcutService = shortcutService;
             _dialogService = dialogService;
+
+            _wathcer = new FileSystemWatcher(StartupPath, "*.*") { EnableRaisingEvents = true };
+            StartupShortcuts = new[]
+            {
+                _wathcer.CreatedAsObservable(),
+                _wathcer.ChangedAsObservable(),
+                _wathcer.DeletedAsObservable(),
+                _wathcer.RenamedAsObservable()
+            }
+            .Merge()
+            .Select(_ => GetStartupShorcuts())
+            .ToReadOnlyReactivePropertySlim(GetStartupShorcuts());
         }
 
-        public IEnumerable<IShortcut> GetStartupShortcuts()
-            => _shortcutService.GetShortcuts(StartupPath);
+        private List<IShortcut> GetStartupShorcuts()
+            => _shortcutService.GetShortcuts(StartupPath).ToList();
 
-        public IEnumerable<IShortcut> NewStartupShortcut()
+        public void NewStartupShortcut()
         {
             var selectFilePathes = _selectExecuteFileService.SelectExecuteFiles();
             foreach (var filePath in selectFilePathes)
             {
-                var fileNameWithoutExt = System.IO.Path.GetFileNameWithoutExtension(filePath);
+                var fileNameWithoutExt = Path.GetFileNameWithoutExtension(filePath);
                 var shortcut = new Shortcut()
                 {
                     Arguments = "",
                     Description = "Make by StartupConfigurerWin10",
-                    FullName = System.IO.Path.Combine(StartupPath, fileNameWithoutExt + ".lnk"),
+                    FullName = Path.Combine(StartupPath, fileNameWithoutExt + ".lnk"),
                     IconLocation = filePath + ",0",
                     TargetPath = filePath,
                     WindowStyle = WindowStyle.Normal,
                     WorkingDirectory = ""
                 };
 
-                yield return shortcut;
+                _shortcutService.SaveShortcut(StartupPath, shortcut);
             }
         }
 
-        public void SaveStartupShortcuts(IEnumerable<IShortcut> shortcuts)
+        public void DeleteStartupShortcut(IShortcut shortcut)
         {
-            try
-            {
-                _shortcutService.SaveShortcuts(StartupPath, shortcuts);
-                _dialogService.ShowMessage("保存しました。");
-            }
-            catch
-            {
-                throw;
-            }
+            _shortcutService.DeleteShortcut(StartupPath, shortcut);
         }
 
         public void DeleteStartupShortcuts(IEnumerable<IShortcut> shortcuts)
